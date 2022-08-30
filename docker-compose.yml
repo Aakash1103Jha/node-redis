@@ -1,0 +1,23 @@
+version: "3"
+services:
+    express-server:
+        container_name: express
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "4000:4000"
+        restart: on-failure
+        environment:
+            - PORT=4000
+            - REDIS_BASE_URI=172.28.0.1 # IP address of the container running redis
+        command: npm run dev
+
+    redis-server:
+        restart: always
+        container_name: "redis"
+        image: redis:alpine
+        expose:
+            - 6379
+        ports:
+            - "6379:6379/tcp"
